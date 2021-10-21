@@ -1,0 +1,26 @@
+PHP 
+PERSONAL HOME PAGE,HYPERTEX PREPROCESSOR
+
+-no es un lenguaje compiado
+-el 80% de los sitios web del mundo estan hechos con PHP
+
+-realiza cosas que html por si solas no puede hacer
+
+ventajas de PHP
+
+-gratis y open source
+-multiplataforma
+-diseñado para la web
+-funcionas para conectar a bases de datos ya definidas
+-facil comparado con otras opciones
+-puede o no ser orientado a objetos
+-incluido en casi todos los servicios de hosting
+-permite conectarse a mas de 12 bases de datos diferentes
+
+
+¿es PHP inseguro?
+-PHP tiene muchas funciones enfocadas  a la seguridad
+-puede Hashear passwords
+
+
+
