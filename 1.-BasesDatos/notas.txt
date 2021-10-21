@@ -1,0 +1,167 @@
+-crear una base de dato
+CREATE DATABASE NOMBRE;
+
+-ver bases de datos
+SHOW DATABASES;
+
+-usar una base de datos
+USE NOMBRE;
+
+-crear una tabla
+CREATE TABLE nombre(nombre_dato tipodato(tamaño));
+
+-ver las tablas que existe
+SHOW TABLES;
+
+-describir una tabla 
+DESCRIBE nombre_tabla;
+
+-ingresar valores en una base de datos
+INSERT INTO servicios (nombre,precio) VALUES ("jose",117); 
+
+-insertar varios valores a la vez 
+INSERT INTO servicios (nombre,precio) VALUES ("peinado mujer",113),("otro valor",1111);
+
+
+-ver los valores de todas nuestras tablas
+SELECT * FROM nombre_tabla;  
+
+SELECT * FROM servicios;
+
+
+--ver los valores de una tabla en especifico
+SELECT precio FROM servicio; 
+
+-ordenar los datos de  manera ascendente
+SELECT precio FROM servicios ORDER BY precio ASC;
+
+-ordenar los datos de manera descendente
+SELECT precio FROM servicios ORDER BY precio DESC;
+
+-limitar cuantas entradas vemos
+SELECT id,nombre,precio FROM servicios LIMIT 2;
+
+-listar por condiciones 
+SELECT id,nombre,precio FROM servicios WHERE id=3;
+select * from servicios where precio>=100;
+select * from servicios where precio<=20;
+
+-actualizar los daots de una base es importante nunca olvidarnos del WHERE 
+
+UPDATE servicios SET precio=70 WHERE id=2;
+
+-eliminar el registro en una base de datos
+DELETE from servicios WHERE id=1;
+
+si eliminamos un registro en sql no sobrescribe sino que si corriendo en la base de datos osea que va al ultimo  y ahi inserta
+
+--agregar una columna en nuestra base
+ ALTER TABLE servicios ADD descripcion VARCHAR(100) NOT NULL;
+
+ -cambiar el nombre de una columna
+                    nombre_columna    nuevo_nombre 
+ ALTER TABLE servicios CHANGE  anterior  nuevo  VARCHAR(21);
+
+
+ --eliminar una columna
+ ALTER TABLE servicios DROP COLUMN nombreColumna;
+
+ --eliminar una tabla 
+DROP TABLE servicios;  
+
+-filtrar datos entre un rango
+select * from servicios where precio BETWEEN 100 AND 200;
+
+--funcion agregadora
+esta funcion creara dos tablas con los nombres que le proporcionemos , y podemos decirle que los agrupe dependiendo otra
+
+SELECT COUNT(id),fecha FROM reservaciones GROUP BY fecha ORDER BY COUNT(id)DESC;
+
+
+--funcion sumadora
+esta funcion sumara o almacenara algo en la columna que nosotros indiquemos
+SELECT SUM(precio) AS totalServicios FROM servicios;
+
+-funcion minimo y maximo
+ SELECT MIN(precio) AS precioMenos FROM Servicios;
+ SELECT MAX(precio) AS precioMenos FROM Servicios;
+
+
+ --buscar en sql
+                                        lo que estamos buscando inicia con la palabra corte
+ SELECT * FROM servicios WHERE nombre LIKE 'Corte%';
+
+                        puede ir al inicio o al final
+                        y en ambas direcciones tambien
+SELECT * FROM servicios WHERE nombre LIKE '%llo%';
+
+
+--concatenar dos columnas
+
+SELECT CONCAT(nombre,' ',apellido) AS nombreCompleto FROM reservaciones; 
+
+-revisar varias condiciones en una consulta 
+SELECT * FROM reservaciones WHERE fecha="2021-06-28" AND id=1;
+
+
+NORMALIZACION DE BASES DE datos
+
+1NF,2NF,3NF
+
+1NF: cada columna debe tener 1 solo valor y no debe de haber numeros repetidos
+
+2NF:una vez que apliquemos la primera regla podemos pasar a la segunda regla 
+
+¿llave primaria compuesta?
+llaves que se componen de dos columnas
+
+3NF:
+se enfoca en los demas datos que no son llaves compuestas
+
+--DENORMALIZACION
+
+algunas veces encontraremos bases de datos que rompen las reglas de normalizacion pero no significa que este mal
+
+
+--Diagramas ENTIDAD RELACION
+
+nos daran una idea de forma grafica de las entidades(tablas) y sus atributosd
+
+nos ayudan a  conocer como estan relacionados los datos entre si
+
+
+-CARDINALIDAD
+
+numero de veces que una instancia se relaciona con otras
+
+--relacionar una  tabla con otra 
+
+CREATE TABLE citas(
+    -> id INT(11) NOT NULL AUTO_INCREMENT,
+    -> fecha DATE NOT NULL,
+    -> hora TIME NOT NULL,
+    -> clienteId INT(11) NOT NULL,
+    -> PRIMARY KEY(id),
+    -> KEY clienteId(clienteId),
+    -> CONSTRAINT cliente_FK FOREIGN KEY(clienteId)
+    -> REFERENCES clientes(id));
+
+    INNER JOIN: Devuelve todas las filas cuando hay al menos una coincidencia en ambas tablas.
+
+    select * from citas
+    -> INNER JOIN clientes ON clientes.id=citas.clienteId;
+
+    --crear una tabla pivote 
+
+    create table citasServicios( id int (11) not null ,
+     citaId int(11) not null,
+    servicioId int(11) not null,
+     PRIMARY KEY(id),
+     KEY citaId(citaId),
+     CONSTRAINT citas_fk
+     FOREIGN KEY (citaId)
+     REFERENCES citas(id),
+     KEY servicioId(servicioId),
+     CONSTRAINT servicios_fk
+     FOREIGN KEY(servicioId)
+    REFERENCES servicios(id));
